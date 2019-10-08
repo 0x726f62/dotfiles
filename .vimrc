@@ -27,9 +27,12 @@ set wildmenu
 set showcmd
 
 "mouse
-set mouse=a
+set mouse=v
 
 "for carret matching
 set showmatch
+
+"copy to clipboard as well
+set clipboard=unnamedplus
 
 nnoremap <F3> :set hlsearch!<CR>
