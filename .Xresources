@@ -42,7 +42,7 @@ URxvt.externalBorder:      0
 URxvt.scrollBar:           false
 URxvt*fading:              30
 
-URxvt.perl-ext-common: default,clipboard,selection,resize-font,tabbedex
+URxvt.perl-ext-common: default,clipboard,selection,font-size,tabbedex
 
 URxvt.clipboard.autocopy: true
 URxvt.keysym.M-c: perl:clipboard:copy
@@ -56,10 +56,12 @@ URxvt.keysym.Shift-Left: perl:tabbedex:prev_tab
 URxvt.keysym.Shift-Right: perl:tabbedex:next_tab
 URxvt.keysym.Shift-Up: perl:tabbedex:rename_tab
 
-URxvt.keysym.C-minus:     resize-font:smaller
-URxvt.keysym.C-plus:      resize-font:bigger
-URxvt.keysym.C-equal:     resize-font:reset
-URxvt.keysym.C-question:  resize-font:show
+URxvt.keysym.C-minus:     font-size:increase
+URxvt.keysym.C-plus:   font-size:decrease
+!URxvt.keysym.C-S-M-Up:   font-size:incglobal
+!URxvt.keysym.C-S-M-Down: font-size:decglobal
+!URxvt.keysym.C-S-equal:  font-size:reset
+!URxvt.keysym.C-S-slash:  font-size:show
 
 URxvt.keysym.Control-Up:     \033[1;5A
 URxvt.keysym.Control-Down:   \033[1;5B
