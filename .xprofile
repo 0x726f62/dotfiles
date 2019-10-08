@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+
+#All this could be in .xinitrc if no dm is used (xinit)
+
+#urxvt daemon
+urxvtd -q -f -o
+
+#notifications
+dunst >/dev/null 2>&1 &
+
+#thunar daemon
+thunar --daemon &
+
+#X composer
+compton -b >/dev/null 2>&1
+
+#clipboard manager
+glipper &
+
+#explictly define terminal for i3
+export TERMINAL='rxvt-unicode'
+
+[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
+
+#set wallpaper
+feh --bg-scale "$HOME/pics/wallpapers/sky-690293.jpg"
+
+#disable pc speaker
+xset -b b off
+
+# disable mouse acceleration
+xset m 0 0

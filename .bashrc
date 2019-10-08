@@ -10,19 +10,6 @@ export PAGER="less"
 
 export HISTCONTROL=ignoredups
 
-alias docker-ls='docker run --rm -it docker-ls docker-ls'
-
-# HH configuration
-export HH_CONFIG=hicolor         # get more colors
-shopt -s histappend              # append new history items to .bash_history
-export HISTCONTROL=ignorespace   # leading space hides commands from history
-export HISTFILESIZE=100000        # increase history file size (default is 500)
-export HISTSIZE=${HISTFILESIZE}  # increase history size (default is 500)
-#export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"   # mem/file sync
-# if this is interactive shell, then bind hh to Ctrl-r (for Vi mode check doc)
-if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hh -- \C-j"'; fi
-
-
 # Colors
 
 # Set colorful PS1 only on colorful terminals.
@@ -41,7 +28,8 @@ match_lhs=""
 	&& type -P dircolors >/dev/null \
 	&& match_lhs=$(dircolors --print-database)
 
-if [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] ; then
+
+#if [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] ; then
 	
 	# we have colors :-)
 
@@ -54,7 +42,7 @@ if [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] ; then
 		fi
 	fi
 
-	PS1="$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;32m\]\u@\h'; fi)\[\033[01;34m\] \w \$([[ \$? != 0 ]] && echo \"\[\033[01;31m\]:(\[\033[01;34m\] \")\\$\[\033[00m\] "
+	PS1="$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;32m\]\u@\h'; fi)\[\033[01;34m\] \w \\$\[\033[00m\] "
 
 	# Use this other PS1 string if you want \W for root and \w for all other users:
 	# PS1="$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h\[\033[01;34m\] \W'; else echo '\[\033[01;32m\]\u@\h\[\033[01;34m\] \w'; fi) \$([[ \$? != 0 ]] && echo \"\[\033[01;31m\]:(\[\033[01;34m\] \")\\$\[\033[00m\] "
@@ -79,16 +67,16 @@ if [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] ; then
 	LESS_TERMCAP_ue=$'\E[0m' \
 	LESS_TERMCAP_us=$'\E[04;38;5;146m'
 
-else
-
-	# show root@ when we do not have colors
-
-	PS1="\u@\h \w \$([[ \$? != 0 ]] && echo \":( \")\$ "
-
-	# Use this other PS1 string if you want \W for root and \w for all other users:
-	# PS1="\u@\h $(if [[ ${EUID} == 0 ]]; then echo '\W'; else echo '\w'; fi) \$([[ \$? != 0 ]] && echo \":( \")\$ "
-
-fi
+#else
+#
+#	# show root@ when we do not have colors
+#
+#	PS1="\u@\h \w \$([[ \$? != 0 ]] && echo \":( \")\$ "
+#
+#	# Use this other PS1 string if you want \W for root and \w for all other users:
+#	# PS1="\u@\h $(if [[ ${EUID} == 0 ]]; then echo '\W'; else echo '\w'; fi) \$([[ \$? != 0 ]] && echo \":( \")\$ "
+#
+#fi
 
 PS2="> "
 PS3="> "
@@ -136,3 +124,19 @@ extract () {
        echo "'$1' is not a valid file!"
    fi
 }
+
+
+# HSTR configuration - add this to ~/.bashrc
+alias hh=hstr                    # hh to be alias for hstr
+export HSTR_CONFIG=hicolor       # get more colors
+shopt -s histappend              # append new history items to .bash_history
+export HISTCONTROL=ignorespace   # leading space hides commands from history
+export HISTFILESIZE=10000        # increase history file size (default is 500)
+export HISTSIZE=${HISTFILESIZE}  # increase history size (default is 500)
+# ensure synchronization between Bash memory and history file
+export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"
+# if this is interactive shell, then bind hstr to Ctrl-r (for Vi mode check doc)
+if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hstr -- \C-j"'; fi
+# if this is interactive shell, then bind 'kill last command' to Ctrl-x k
+if [[ $- =~ .*i.* ]]; then bind '"\C-xk": "\C-a hstr -k \C-j"'; fi
+
